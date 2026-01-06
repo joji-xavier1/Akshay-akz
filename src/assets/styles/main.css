@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* Modern Professional Theme */
+/* Professional Dark Theme */
 @theme {
-  /* Premium Dark Palette */
-  --color-primary: #6366f1; /* Indigo 500 - Trust & Professionalism */
-  --color-secondary: #f8fafc; /* Slate 50 - Clean White/Off-white */
-  --color-background: #0f172a; /* Slate 900 - Deep Professional Dark */
-  --color-surface: #1e293b; /* Slate 800 - Card Surface */
-  --color-accent: #38bdf8; /* Sky 400 - Modern Tech Accent */
-  --color-text: #f1f5f9; /* Slate 100 - High legibility */
-  --color-text-muted: #94a3b8; /* Slate 400 */
-  --color-border: #334155; /* Slate 700 - Subtle borders */
+  /* Refined Color Palette */
+  --color-primary: #3b82f6; /* Blue 500 - Professional & Modern */
+  --color-secondary: #f1f5f9; /* Slate 100 - Clean text */
+  --color-background: #030712; /* Gray 950 - Deep professional dark */
+  --color-surface: #111827; /* Gray 900 - Elevated surface */
+  --color-accent: #60a5fa; /* Blue 400 - Subtle accent */
+  --color-text: #e2e8f0; /* Slate 200 - Primary text */
+  --color-text-muted: #64748b; /* Slate 500 - Muted text */
+  --color-border: #1f2937; /* Gray 800 - Subtle borders */
   
-  --font-heading: 'Inter', sans-serif; /* Clean, geometric, professional */
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 }
 
 /* Base Styles */
@@ -24,19 +24,20 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  font-weight: 700;
-  letter-spacing: -0.025em; /* Tight tracking for modern feel */
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-/* Modern Animations */
+/* Animations */
 @keyframes fade-in-up {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   100% {
     opacity: 1;
@@ -44,49 +45,42 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@keyframes hover-lift {
-  0% {
-     transform: translateY(0);
-  }
-  100% {
-     transform: translateY(-4px);
-  }
-}
-
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
+  animation: fade-in-up 0.5s ease-out forwards;
 }
 
 /* Utility Classes */
 .glass {
-  background: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-secondary), var(--color-text-muted));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Component Classes */
+/* Buttons */
 .btn-primary {
   background: var(--color-primary);
   color: white;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem; /* Clean rounded corners, not pills */
+  border-radius: 0.5rem;
   font-weight: 500;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
-  border: 1px solid transparent;
+  border: none;
   cursor: pointer;
-  font-size: 0.95rem;
 }
 
 .btn-primary:hover {
-  background: #4f46e5; /* Indigo 600 */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background: #2563eb; /* Blue 600 */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary {
@@ -94,11 +88,11 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-border);
   color: var(--color-text);
   padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   font-weight: 500;
+  font-size: 0.875rem;
   transition: all 0.2s ease;
   cursor: pointer;
-  font-size: 0.95rem;
 }
 
 .btn-secondary:hover {
@@ -106,24 +100,24 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--color-text-muted);
 }
 
+/* Cards */
 .card {
   background: var(--color-surface);
   border-radius: 0.75rem;
   padding: 1.5rem;
   border: 1px solid var(--color-border);
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
 }
 
 .card:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
 }
 
-/* Scrollbar Styling */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -137,4 +131,10 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-muted);
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: white;
 }

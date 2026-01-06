@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useCartStore } from '../stores/cart'
 import { useLiveStore } from '../stores/live'
@@ -34,7 +34,7 @@ const socialLinks = [
   { name: 'YouTube', icon: Youtube, url: 'https://youtube.com/@akshayakz' },
   { name: 'Instagram', icon: Instagram, url: 'https://instagram.com/akshayakz' },
   { name: 'Twitter', icon: Twitter, url: 'https://twitter.com/akshayakz' },
-  { name: 'Discord', icon: MessageCircle, url: 'https://discord.gg/teamlava' }
+  { name: 'Discord', icon: MessageCircle, url: 'http://discord.com/invite/k8K74CKD' }
 ]
 
 const toggleMobileMenu = () => {
@@ -44,10 +44,6 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
 }
-
-onMounted(() => {
-  liveStore.startPolling()
-})
 </script>
 
 <template>
