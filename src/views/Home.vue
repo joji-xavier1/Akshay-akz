@@ -103,6 +103,37 @@ onMounted(() => {
             <span class="text-white">Team</span>
             <span class="text-gradient"> Lava</span>
           </h1>
+
+          <!-- Live Subscriber Count - Prominent Display -->
+          <div class="flex flex-col items-center justify-center py-6">
+            <div class="relative group">
+              <!-- Glow effect -->
+              <div class="absolute -inset-4 bg-primary/20 rounded-2xl blur-xl group-hover:bg-primary/30 transition-all duration-500"></div>
+              
+              <div class="relative bg-surface/80 backdrop-blur-sm border border-primary/30 rounded-2xl px-8 py-6 sm:px-12 sm:py-8">
+                <!-- Live badge -->
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-400 text-xs font-medium uppercase tracking-wider">
+                    <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                    Live Count
+                  </span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+                    <Users class="w-7 h-7 text-white" />
+                  </div>
+                  
+                  <div class="text-left">
+                    <p class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white tabular-nums">
+                      {{ liveStore.exactSubCount || '...' }}
+                    </p>
+                    <p class="text-sm text-text-muted uppercase tracking-wider mt-1">Subscribers</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           
           <p class="text-lg text-text-muted max-w-2xl mx-auto leading-relaxed">
             Premium gaming content, epic tournaments, and a passionate community. Join millions of fans following Akshay Akz's gaming journey.

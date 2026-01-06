@@ -18,6 +18,10 @@ export const useLiveStore = defineStore('live', {
     formattedSubCount: (state) => {
       return Intl.NumberFormat('en-US', { notation: "compact", maximumFractionDigits: 1 }).format(state.subscriberCount)
     },
+    // Exact count with thousand separators (e.g., 1,319,299)
+    exactSubCount: (state) => {
+      return Intl.NumberFormat('en-US').format(state.subscriberCount)
+    },
     isUpcoming: (state) => {
       if (!state.nextLiveTime) return false;
       const now = new Date();
@@ -60,11 +64,15 @@ export const useLiveStore = defineStore('live', {
       this.fetchStats();
       this.fetchLiveStatus();
 
-      // Poll every 60 seconds
+      // Real-time polling every 5 seconds (FREE - no quota used!)
       setInterval(() => {
         this.fetchStats();
+      }, 5 * 1000); // 5 seconds
+
+      // Live status polling every 30 seconds
+      setInterval(() => {
         this.fetchLiveStatus();
-      }, 60000);
+      }, 30 * 1000); // 30 seconds
     }
   }
 })

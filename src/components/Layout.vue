@@ -86,9 +86,6 @@ const closeMobileMenu = () => {
 
           <!-- Right Actions -->
           <div class="flex items-center gap-4">
-            <!-- Live Counter (Hidden on very small screens) -->
-            <LiveSubCounter class="hidden sm:flex" />
-
             <!-- Cart -->
             <RouterLink to="/merch" class="relative p-2 hover:text-primary transition-colors">
               <ShoppingCart class="w-6 h-6" />
@@ -127,11 +124,6 @@ const closeMobileMenu = () => {
           class="lg:hidden absolute top-full left-0 right-0 glass border-t border-white/10"
         >
           <div class="px-4 py-6 space-y-4">
-            <!-- Mobile Sub Counter -->
-            <div class="mb-4 flex flex-col items-center">
-              <LiveSubCounter />
-            </div>
-
             <RouterLink
               v-for="link in navLinks"
               :key="link.path"
