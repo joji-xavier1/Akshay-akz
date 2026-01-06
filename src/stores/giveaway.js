@@ -2,38 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useGiveawayStore = defineStore('giveaway', () => {
-  const activeGiveaways = ref([
-    {
-      id: 1,
-      title: 'iPhone 15 Pro Max Giveaway',
-      description: 'Subscribe & comment to win an iPhone 15 Pro Max!',
-      endDate: '2026-02-15',
-      prize: 'iPhone 15 Pro Max',
-      image: 'https://images.unsplash.com/photo-1696446701796-da61225697cc?w=400',
-      requirements: ['Subscribe to the channel', 'Like this video', 'Comment your favorite game'],
-      participants: 15420
-    },
-    {
-      id: 2,
-      title: 'Gaming PC Build Giveaway',
-      description: 'Win a complete RGB gaming setup worth ₹2,00,000!',
-      endDate: '2026-02-28',
-      prize: 'Gaming PC Setup',
-      image: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400',
-      requirements: ['Follow on Instagram', 'Share this post', 'Tag 3 friends'],
-      participants: 8750
-    },
-    {
-      id: 3,
-      title: 'Team Lava Jersey Giveaway',
-      description: '10 lucky winners will get official Team Lava jerseys!',
-      endDate: '2026-01-31',
-      prize: 'Team Lava Jersey',
-      image: 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?w=400',
-      requirements: ['Join Discord server', 'React to giveaway post'],
-      participants: 3200
-    }
-  ])
+  const activeGiveaways = ref([])
 
   const pastGiveaways = ref([
     {

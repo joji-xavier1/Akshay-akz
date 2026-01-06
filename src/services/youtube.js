@@ -17,11 +17,19 @@ export const youtubeService = {
    * Fetches channel statistics using FREE third-party APIs
    * NO QUOTA COST - uses mixerno.space and socialcounts.org
    * These services provide real-time YouTube stats without API keys
+   * @param {boolean} forceRefresh - If true, bypasses cache to get fresh data
    */
-  async getChannelStats() {
-    // Return cached data if still valid
+  async getChannelStats(forceRefresh = false) {
     const now = Date.now();
-    if (statsCache.data && (now - statsCache.timestamp) < STATS_CACHE_DURATION) {
+    
+    // Clear cache if forcing refresh
+    if (forceRefresh) {
+      console.log('Force refreshing stats...');
+      statsCache = { data: null, timestamp: 0 };
+    }
+
+    // Return cached data if still valid (unless forcing refresh)
+    if (!forceRefresh && statsCache.data && (now - statsCache.timestamp) < STATS_CACHE_DURATION) {
       console.log('Using cached stats');
       return statsCache.data;
     }

@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useCartStore } from '../stores/cart'
 import { useLiveStore } from '../stores/live'
+import { useThemeStore } from '../stores/theme'
 import LiveSubCounter from './LiveSubCounter.vue'
 import LiveNotification from './LiveNotification.vue'
 import {
@@ -13,11 +14,14 @@ import {
   Instagram,
   Twitter,
   MessageCircle,
-  Flame
+  Flame,
+  Sun,
+  Moon
 } from 'lucide-vue-next'
 
 const cartStore = useCartStore()
 const liveStore = useLiveStore()
+const themeStore = useThemeStore()
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 
@@ -25,7 +29,7 @@ const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Merch', path: '/merch' },
   { name: 'Lava News', path: '/news' },
-  { name: 'Team Lava', path: '/team' },
+  { name: 'Guild Test', path: '/guild-test' },
   { name: 'Giveaways', path: '/giveaways' },
   { name: 'Contact', path: '/contact' }
 ]
@@ -85,7 +89,17 @@ const closeMobileMenu = () => {
           </div>
 
           <!-- Right Actions -->
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 sm:gap-4">
+            <!-- Theme Toggle -->
+            <button
+              @click="themeStore.toggleTheme"
+              class="theme-toggle"
+              :aria-label="themeStore.isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+            >
+              <Sun v-if="themeStore.isDark" class="w-5 h-5" />
+              <Moon v-else class="w-5 h-5" />
+            </button>
+
             <!-- Cart -->
             <RouterLink to="/merch" class="relative p-2 hover:text-primary transition-colors">
               <ShoppingCart class="w-6 h-6" />

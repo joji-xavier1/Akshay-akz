@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Merch from '../views/Merch.vue'
 import LavaNews from '../views/LavaNews.vue'
-import TeamLava from '../views/TeamLava.vue'
+import GuildTest from '../views/GuildTest.vue'
 import Giveaways from '../views/Giveaways.vue'
 import Contact from '../views/Contact.vue'
 
@@ -26,10 +26,10 @@ const routes = [
     meta: { title: 'Lava News | Akshay Akz' }
   },
   {
-    path: '/team',
-    name: 'TeamLava',
-    component: TeamLava,
-    meta: { title: 'Team Lava | Akshay Akz' }
+    path: '/guild-test',
+    name: 'GuildTest',
+    component: GuildTest,
+    meta: { title: 'Guild Test | Akshay Akz' }
   },
   {
     path: '/giveaways',

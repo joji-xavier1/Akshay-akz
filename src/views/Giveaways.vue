@@ -40,28 +40,7 @@ onMounted(() => {
         </p>
       </div>
 
-      <!-- Winners Wall (Marquee) -->
-      <div 
-        class="mb-12 overflow-hidden bg-surface rounded-2xl py-4 transition-all duration-700 delay-100"
-        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-      >
-        <div class="flex items-center gap-4 px-4 mb-3">
-          <Crown class="w-6 h-6 text-secondary" />
-          <h3 class="font-heading font-semibold text-secondary">WINNERS WALL</h3>
-        </div>
-        <div class="relative">
-          <div class="flex animate-marquee whitespace-nowrap">
-            <div
-              v-for="(winner, index) in [...giveawayStore.winners, ...giveawayStore.winners]"
-              :key="index"
-              class="inline-flex items-center gap-2 mx-4 px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30"
-            >
-              <Trophy class="w-4 h-4 text-secondary" />
-              <span class="font-medium">{{ winner }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Active Giveaways -->
       <section 
@@ -73,7 +52,7 @@ onMounted(() => {
           ACTIVE GIVEAWAYS
         </h2>
         
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div v-if="giveawayStore.activeGiveaways.length > 0" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           <article
             v-for="giveaway in giveawayStore.activeGiveaways"
             :key="giveaway.id"
@@ -134,37 +113,28 @@ onMounted(() => {
             </button>
           </article>
         </div>
-      </section>
 
-      <!-- Past Giveaways -->
-      <section 
-        class="transition-all duration-700 delay-300"
-        :class="isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-      >
-        <h2 class="text-2xl sm:text-3xl font-heading font-bold mb-8 flex items-center gap-3">
-          <Calendar class="w-6 h-6 text-text-muted" />
-          PAST GIVEAWAYS
-        </h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div
-            v-for="giveaway in giveawayStore.pastGiveaways"
-            :key="giveaway.id"
-            class="card bg-surface/50 flex items-center gap-4"
-          >
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
-              <Trophy class="w-6 h-6 text-secondary" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <h4 class="font-heading font-semibold truncate">{{ giveaway.title }}</h4>
-              <p class="text-sm text-text-muted">{{ giveaway.prize }}</p>
-              <p class="text-xs text-primary mt-1">
-                Winner: <span class="font-medium">{{ giveaway.winner }}</span>
-              </p>
-            </div>
+        <!-- Empty State -->
+        <div v-else class="text-center py-16 card bg-surface/50 border-dashed border-2 border-white/10">
+          <div class="w-16 h-16 mx-auto rounded-full bg-surface-elevated flex items-center justify-center mb-4">
+            <Gift class="w-8 h-8 text-text-muted" />
           </div>
+          <h3 class="font-heading text-xl font-bold mb-2">No Active Giveaways</h3>
+          <p class="text-text-muted max-w-md mx-auto">
+            There are currently no active giveaways running. Join our Discord to get notified about upcoming contests!
+          </p>
+          <a 
+            href="http://discord.com/invite/k8K74CKD" 
+            target="_blank"
+            class="btn-secondary inline-flex items-center gap-2 mt-6"
+          >
+            Join Discord
+            <ExternalLink class="w-4 h-4" />
+          </a>
         </div>
       </section>
+
+
 
       <!-- Rules Section -->
       <section class="mt-16 card bg-surface/50 text-center">

@@ -31,11 +31,12 @@ export const useLiveStore = defineStore('live', {
   },
 
   actions: {
-    async fetchStats() {
+    async fetchStats(forceRefresh = false) {
       try {
-        const stats = await youtubeService.getChannelStats();
+        const stats = await youtubeService.getChannelStats(forceRefresh);
         if (stats) {
           this.subscriberCount = parseInt(stats.subscriberCount);
+          this.lastUpdated = new Date();
         }
       } catch (error) {
         console.error('Failed to fetch stats', error);
@@ -60,13 +61,13 @@ export const useLiveStore = defineStore('live', {
     },
 
     startPolling() {
-      // Initial fetch
-      this.fetchStats();
+      // Initial fetch with force refresh to get fresh data on page load
+      this.fetchStats(true);  // Force refresh on initial load
       this.fetchLiveStatus();
 
       // Real-time polling every 5 seconds (FREE - no quota used!)
       setInterval(() => {
-        this.fetchStats();
+        this.fetchStats(); // Normal fetch (uses cache)
       }, 5 * 1000); // 5 seconds
 
       // Live status polling every 30 seconds

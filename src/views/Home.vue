@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useLiveStore } from '../stores/live'
+import AnimatedCounter from '../components/AnimatedCounter.vue'
 import { 
   Play, 
   Users, 
@@ -112,8 +113,11 @@ onMounted(() => {
               
               <div class="relative bg-surface/80 backdrop-blur-sm border border-primary/30 rounded-2xl px-8 py-6 sm:px-12 sm:py-8">
                 <!-- Live badge -->
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-400 text-xs font-medium uppercase tracking-wider">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                  <span 
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-red-500/50 text-red-400 text-xs font-medium uppercase tracking-wider shadow-lg"
+                    style="background-color: var(--color-background);"
+                  >
                     <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                     Live Count
                   </span>
@@ -125,8 +129,8 @@ onMounted(() => {
                   </div>
                   
                   <div class="text-left">
-                    <p class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white tabular-nums">
-                      {{ liveStore.exactSubCount || '...' }}
+                    <p class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white">
+                      <AnimatedCounter :value="liveStore.subscriberCount" :duration="800" />
                     </p>
                     <p class="text-sm text-text-muted uppercase tracking-wider mt-1">Subscribers</p>
                   </div>
