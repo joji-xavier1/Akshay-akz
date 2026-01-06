@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useCartStore } from '../stores/cart'
+import { useLiveStore } from '../stores/live'
+import LiveSubCounter from './LiveSubCounter.vue'
+import LiveNotification from './LiveNotification.vue'
 import {
   Menu,
   X,
@@ -14,6 +17,7 @@ import {
 } from 'lucide-vue-next'
 
 const cartStore = useCartStore()
+const liveStore = useLiveStore()
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 
@@ -40,10 +44,16 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
 }
+
+onMounted(() => {
+  liveStore.startPolling()
+})
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
+    <LiveNotification />
+    
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,8 +88,11 @@ const closeMobileMenu = () => {
             </RouterLink>
           </div>
 
-          <!-- Cart & Mobile Menu Button -->
+          <!-- Right Actions -->
           <div class="flex items-center gap-4">
+            <!-- Live Counter (Hidden on very small screens) -->
+            <LiveSubCounter class="hidden sm:flex" />
+
             <!-- Cart -->
             <RouterLink to="/merch" class="relative p-2 hover:text-primary transition-colors">
               <ShoppingCart class="w-6 h-6" />
@@ -118,6 +131,11 @@ const closeMobileMenu = () => {
           class="lg:hidden absolute top-full left-0 right-0 glass border-t border-white/10"
         >
           <div class="px-4 py-6 space-y-4">
+            <!-- Mobile Sub Counter -->
+            <div class="mb-4 flex flex-col items-center">
+              <LiveSubCounter />
+            </div>
+
             <RouterLink
               v-for="link in navLinks"
               :key="link.path"
