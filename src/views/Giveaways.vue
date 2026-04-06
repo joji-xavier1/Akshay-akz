@@ -2,9 +2,21 @@
 import { ref, onMounted } from 'vue'
 import { useGiveawayStore } from '../stores/giveaway'
 import { Trophy, Calendar, Users, Gift, ExternalLink, ChevronRight, Crown } from 'lucide-vue-next'
+import GiveawayParticipationFlow from '../components/GiveawayParticipationFlow.vue'
 
 const giveawayStore = useGiveawayStore()
 const isVisible = ref(false)
+const showFlowModal = ref(false)
+const selectedGiveaway = ref(null)
+
+const handleEnterGiveaway = (giveaway) => {
+  if (giveaway.requiresFlow) {
+    selectedGiveaway.value = giveaway
+    showFlowModal.value = true
+  } else {
+    giveawayStore.enterGiveaway(giveaway.id)
+  }
+}
 
 const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('en-IN', {
@@ -25,7 +37,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen py-8 lg:py-16">
+  <div class="min-h-screen py-8 lg:py-16 relative">
+    
+    <Transition
+      enter-active-class="transition-opacity duration-300"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-200"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <GiveawayParticipationFlow 
+        v-if="showFlowModal && selectedGiveaway" 
+        :giveaway="selectedGiveaway"
+        @close="showFlowModal = false"
+        @complete="showFlowModal = false"
+      />
+    </Transition>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div 
@@ -105,7 +134,7 @@ onMounted(() => {
             </div>
             
             <button
-              @click="giveawayStore.enterGiveaway(giveaway.id)"
+              @click="handleEnterGiveaway(giveaway)"
               class="btn-primary w-full mt-6 flex items-center justify-center gap-2"
             >
               Enter Giveaway

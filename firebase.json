@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "TEAM LAVA",
+        "supportEmail": "fung05829@gmail.com"
+      }
+    }
+  }
+}

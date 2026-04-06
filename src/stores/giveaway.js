@@ -2,8 +2,22 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useGiveawayStore = defineStore('giveaway', () => {
-  const activeGiveaways = ref([])
-
+  const activeGiveaways = ref([
+    {
+      id: 1,
+      title: 'Marriage treat',
+      prize: 'Exclusive Rewards & Top-ups',
+      description: 'Special marriage treat giveaway! Participate to win exclusive rewards.',
+      endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800',
+      participants: 0,
+      requirements: [
+        'Free Fire Level 40+',
+        'Must be subscribed to the channel'
+      ],
+      requiresFlow: true
+    }
+  ])
   const pastGiveaways = ref([
     {
       id: 101,
