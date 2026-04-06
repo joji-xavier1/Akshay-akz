@@ -2,11 +2,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { ShoppingCart, Check, X, Trash2, Plus, Minus, Tag, Flame } from 'lucide-vue-next'
+import ComingSoon from '../components/ComingSoon.vue'
 
 const cartStore = useCartStore()
 const showCart = ref(false)
 const isVisible = ref(false)
 const addedToCart = ref(null)
+const isComingSoon = ref(true)
 
 const products = ref([
   {
@@ -115,7 +117,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen py-8 lg:py-16">
+  <div v-if="isComingSoon">
+    <ComingSoon 
+      title="MERCH STORE" 
+      description="Our exclusive Team Lava collection is currently in production. Get ready to rep the army with premium gear soon!"
+    />
+  </div>
+  <div v-else class="min-h-screen py-8 lg:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div 

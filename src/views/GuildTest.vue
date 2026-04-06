@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { freeFireService } from '../services/freefire'
-import { Search, Shield, Trophy, Target, Crosshair, User, AlertCircle, CheckCircle, XCircle, Loader2, ThumbsUp, Crown, Calendar, Skull } from 'lucide-vue-next'
+import { Search, Shield, Trophy, Target, Crosshair, User, AlertCircle, CheckCircle, XCircle, Loader2, ThumbsUp, Crown, Calendar, Skull, ExternalLink } from 'lucide-vue-next'
+import ComingSoon from '../components/ComingSoon.vue'
 
 const uid = ref('')
 const region = ref('ind')
@@ -11,6 +12,7 @@ const playerData = ref(null)
 const brStats = ref(null)
 const csStats = ref(null)
 const hasSearched = ref(false)
+const isComingSoon = ref(true)
 
 const regions = [
   { value: 'ind', label: 'India' },
@@ -156,7 +158,13 @@ const formatDate = (timestamp) => {
 </script>
 
 <template>
-  <div class="min-h-screen py-16 lg:py-24">
+  <div v-if="isComingSoon">
+    <ComingSoon 
+      title="GUILD TEST" 
+      description="The ultimate recruitment portal is under maintenance. We're upgrading our verification algorithms to find the best of the best!"
+    />
+  </div>
+  <div v-else class="min-h-screen py-16 lg:py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Header -->

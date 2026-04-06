@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ArrowRight, Calendar, Clock, Flame } from 'lucide-vue-next'
+import ComingSoon from '../components/ComingSoon.vue'
 
 const isVisible = ref(false)
+const isComingSoon = ref(true)
 
 const newsArticles = ref([
   {
@@ -75,7 +77,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen py-8 lg:py-16">
+  <div v-if="isComingSoon">
+    <ComingSoon 
+      title="LAVA NEWS" 
+      description="Stay tuned for the latest gossip, tournament updates, and epic milestones. We're refining our news delivery system!"
+    />
+  </div>
+  <div v-else class="min-h-screen py-8 lg:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->
       <div 
