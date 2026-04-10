@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, nextTick } from 'vue'
 import { freeFireService } from '../services/freefire'
-import { auth, googleProvider, signInWithPopup } from '../services/firebase'
+import { auth, googleProvider, GoogleAuthProvider, signInWithPopup } from '../services/firebase'
 import { useGiveawayStore } from '../stores/giveaway'
 import { X, ChevronRight, Loader2, User as UserIcon, Mail, CheckCircle, Shield, AlertCircle } from 'lucide-vue-next'
 
@@ -71,6 +71,35 @@ const signInOutGoogle = async () => {
     googleUser.value = result.user
     
     console.log("[DEBUG] Google sign-in successful! User:", result.user.email);
+    
+    // Fetch YouTube Handle
+    let youtubeHandle = '';
+    try {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      
+      if (token) {
+        console.log("[DEBUG] Fetching YouTube data using OAuth token...");
+        const ytResponse = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const ytData = await ytResponse.json();
+        
+        if (ytData.items && ytData.items.length > 0) {
+          const snippet = ytData.items[0].snippet;
+          youtubeHandle = snippet.customUrl || snippet.title || '';
+          console.log("[DEBUG] YouTube handle found:", youtubeHandle);
+        } else {
+          console.log("[DEBUG] No YouTube channel found for this account.");
+        }
+      }
+    } catch (ytError) {
+      console.error("[DEBUG] Error fetching YouTube handle:", ytError);
+      // Suppress error to allow flow to continue without YouTube handle if it fails
+    }
+
     console.log("[DEBUG] Attempting to save to Firestore database...");
     
     // Success: They have verified FF and Google.
@@ -82,6 +111,7 @@ const signInOutGoogle = async () => {
       ffAccountId: ffData.value?.accountid || '',
       email: result.user.email,
       googleName: result.user.displayName,
+      youtubeHandle: youtubeHandle,
       googleUid: result.user.uid
     })
     

@@ -15,6 +15,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+
+// Add YouTube scope for fetching username/handle
+googleProvider.addScope('https://www.googleapis.com/auth/youtube.readonly');
+
 const db = getFirestore(app);
 
-export { auth, googleProvider, signInWithPopup, signInWithPhoneNumber, RecaptchaVerifier, db };
+export { auth, googleProvider, GoogleAuthProvider, signInWithPopup, signInWithPhoneNumber, RecaptchaVerifier, db };
