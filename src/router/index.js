@@ -5,6 +5,7 @@ import LavaNews from '../views/LavaNews.vue'
 import GuildTest from '../views/GuildTest.vue'
 import Giveaways from '../views/Giveaways.vue'
 import Contact from '../views/Contact.vue'
+import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 
 const routes = [
   {
@@ -42,6 +43,12 @@ const routes = [
     name: 'Contact',
     component: Contact,
     meta: { title: 'Contact | Akshay Akz' }
+  },
+  {
+    path: '/privacy-policy',
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy,
+    meta: { title: 'Privacy Policy | Akshay Akz' }
   }
 ]
 
