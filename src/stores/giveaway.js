@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { db } from '../services/firebase'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 export const useGiveawayStore = defineStore('giveaway', () => {
   const activeGiveaways = ref([
@@ -49,10 +51,24 @@ export const useGiveawayStore = defineStore('giveaway', () => {
     'StormRider_JKT', 'NightHawk', 'CyberWolf_AMD', 'FireStorm_LKO'
   ])
 
-  function enterGiveaway(giveawayId) {
+  async function enterGiveaway(giveawayId, entryData) {
     const giveaway = activeGiveaways.value.find(g => g.id === giveawayId)
     if (giveaway) {
       giveaway.participants++
+    }
+    
+    if (entryData) {
+      try {
+        await addDoc(collection(db, 'giveaway_entries'), {
+          giveawayId,
+          ...entryData,
+          status: 'verified',
+          createdAt: serverTimestamp()
+        })
+      } catch (e) {
+        console.error("Error saving giveaway entry:", e)
+        throw new Error("Failed to save entry. Please try again.")
+      }
     }
   }
 

@@ -21,18 +21,34 @@ const isLoading = ref(false)
 
 // Step 1: Free Fire
 const ffUid = ref('')
+const ffRegion = ref('ind')
 const ffData = ref(null)
+
+const regions = [
+  { value: 'ind', label: 'India' },
+  { value: 'br', label: 'Brazil' },
+  { value: 'sg', label: 'Singapore' },
+  { value: 'id', label: 'Indonesia' },
+  { value: 'us', label: 'USA' },
+  { value: 'ru', label: 'Russia' },
+  { value: 'vn', label: 'Vietnam' },
+  { value: 'th', label: 'Thailand' },
+  { value: 'me', label: 'Middle East' },
+  { value: 'pk', label: 'Pakistan' },
+  { value: 'cis', label: 'CIS' },
+  { value: 'bd', label: 'Bangladesh' }
+]
 
 // Step 2: Google
 const googleUser = ref(null)
 
 const verifyFreeFire = async () => {
-  if (!ffUid.value) return
+  if (!ffUid.value || !ffRegion.value) return
   isLoading.value = true
   error.value = ''
   
   try {
-    const data = await freeFireService.getPlayerProfile(ffUid.value, 'ind') // Default to ind region for simplicty
+    const data = await freeFireService.getPlayerProfile(ffUid.value, ffRegion.value)
     if (data && data.basicinfo) {
       ffData.value = data.basicinfo
       currentStep.value = 2
@@ -50,14 +66,30 @@ const signInOutGoogle = async () => {
   isLoading.value = true
   error.value = ''
   try {
+    console.log("[DEBUG] Starting signInOutGoogle flow...");
     const result = await signInWithPopup(auth, googleProvider)
     googleUser.value = result.user
     
+    console.log("[DEBUG] Google sign-in successful! User:", result.user.email);
+    console.log("[DEBUG] Attempting to save to Firestore database...");
+    
     // Success: They have verified FF and Google.
-    giveawayStore.enterGiveaway(props.giveaway.id)
+    await giveawayStore.enterGiveaway(props.giveaway.id, {
+      ffUid: ffUid.value,
+      ffRegion: ffRegion.value,
+      ffNickname: ffData.value?.nickname || '',
+      ffLevel: ffData.value?.level || 0,
+      ffAccountId: ffData.value?.accountid || '',
+      email: result.user.email,
+      googleName: result.user.displayName,
+      googleUid: result.user.uid
+    })
+    
+    console.log("[DEBUG] Successfully saved to Firestore database!");
     currentStep.value = 3
   } catch (err) {
-    error.value = err.message || 'Google Sign-In failed.'
+    console.error("[DEBUG] Error caught in signInOutGoogle:", err);
+    error.value = err.message || 'Verification or Database error occurred.'
   } finally {
     isLoading.value = false
   }
@@ -111,15 +143,33 @@ const signInOutGoogle = async () => {
             <p class="text-sm text-text-muted">We need to verify your account to ensure genuine participation.</p>
           </div>
           
-          <div>
-            <label class="block text-xs font-medium text-text-muted mb-2 ml-1">UID</label>
-            <input 
-              v-model="ffUid" 
-              type="text" 
-              placeholder="e.g. 123456789"
-              class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 focus:border-primary transition-colors font-mono"
-              @keyup.enter="verifyFreeFire"
-            />
+          <div class="flex gap-3">
+            <div class="w-1/3">
+              <label class="block text-xs font-medium text-text-muted mb-2 ml-1">Region</label>
+              <div class="relative">
+                <select 
+                  v-model="ffRegion"
+                  class="w-full bg-background border border-white/10 rounded-xl px-3 py-3 appearance-none focus:outline-none focus:border-primary transition-colors cursor-pointer capitalize text-sm"
+                >
+                  <option v-for="r in regions" :key="r.value" :value="r.value" class="bg-surface text-white">
+                    {{ r.label }}
+                  </option>
+                </select>
+                <div class="absolute right-3 top-[0.95rem] pointer-events-none text-text-muted">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+              </div>
+            </div>
+            <div class="w-2/3">
+              <label class="block text-xs font-medium text-text-muted mb-2 ml-1">UID</label>
+              <input 
+                v-model="ffUid" 
+                type="text" 
+                placeholder="e.g. 123456789"
+                class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 focus:border-primary transition-colors font-mono outline-none"
+                @keyup.enter="verifyFreeFire"
+              />
+            </div>
           </div>
           <button 
             @click="verifyFreeFire" 
