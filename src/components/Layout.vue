@@ -211,9 +211,11 @@ const closeMobileMenu = () => {
 
         <!-- Bottom -->
         <div class="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-text-muted text-sm">
-            © 2026 Team Lava. All rights reserved.
-          </p>
+          <div class="text-text-muted text-sm flex items-center gap-3">
+            <span>© 2026 Team Lava. All rights reserved.</span>
+            <span class="text-white/20">|</span>
+            <RouterLink to="/privacy-policy" class="hover:text-primary transition-colors">Privacy Policy</RouterLink>
+          </div>
           <p class="text-text-muted text-sm flex items-center gap-1">
             Made with <Flame class="w-4 h-4 text-primary" /> by Team Lava
           </p>
